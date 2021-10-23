@@ -26,6 +26,7 @@ namespace CandidatosAPP.Formularios
             this.observaciones = observaciones;
             this.candidatoIDValue = candidatoIDValue;
         }
+        //Hacer públicos datos de Candidato para luego poder ser editados
         public string cedula { get; set; }
         public string nombre { get; set; }
         public string apellido { get; set; }
@@ -38,6 +39,7 @@ namespace CandidatosAPP.Formularios
 
         private void EditarFrm_Load(object sender, EventArgs e)
         {
+            //Asignar datos de Candidato a variables y establecer máxima fecha posible para fecha de nacimiento
             mskTxtCedula.Text = cedula;
             txtNombre.Text = nombre;
             txtApellido.Text = apellido;
@@ -48,6 +50,7 @@ namespace CandidatosAPP.Formularios
             guardarCedula = mskTxtCedula.Text;
             dtpFechaNacimiento.MaxDate = new DateTime(DateTime.Now.Year - 18, DateTime.Now.Month, DateTime.Now.Day);
         }
+        //Método para validar Cedula
         public static bool validarCedula(string sCedula)
         {
             int vnTotal = 0;
@@ -71,7 +74,7 @@ namespace CandidatosAPP.Formularios
             else
                 return false;
         }
-
+        //Actualizar datos de Candidato
         private void button1_Click(object sender, EventArgs e)
         {
            

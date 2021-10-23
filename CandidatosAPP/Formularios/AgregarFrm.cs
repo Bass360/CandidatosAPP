@@ -16,7 +16,7 @@ namespace CandidatosAPP.Formularios
         public AgregarFrm()
         {
             InitializeComponent();
-
+            //Establecer máxima fecha posible para fecha de nacimiento
             dtpFechaNacimiento.MaxDate = new DateTime(DateTime.Now.Year-18, DateTime.Now.Month, DateTime.Now.Day);
         }
         
@@ -35,6 +35,7 @@ namespace CandidatosAPP.Formularios
         {
 
         }
+        //Método para validar Cedula
         public static bool validarCedula(string sCedula)
         {
             int vnTotal = 0;
@@ -59,12 +60,11 @@ namespace CandidatosAPP.Formularios
                 return false;
         }
 
-
+        //Agregar nuevo Candidato
         private void button1_Click(object sender, EventArgs e)
         {
             SQLiteConnection con = new SQLiteConnection("Data Source=CandidatosAPPDB.sqlite;Version=3;");
             con.Open();
-
             
             if (String.IsNullOrEmpty(mskTxtCedula.Text) || String.IsNullOrWhiteSpace(txtNombre.Text)
                 || String.IsNullOrWhiteSpace(txtApellido.Text))

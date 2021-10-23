@@ -22,17 +22,13 @@ namespace CandidatosAPP
         private void Form1_Load(object sender, EventArgs e)
         {
             
-
-            if (File.Exists("CandidatosAPPDB.sqlite"))
-            {
-
-            }
-            else
+            //Verificar si base de datos existe
+            if (!File.Exists("CandidatosAPPDB.sqlite"))
             {
                 SQLiteConnection.CreateFile("CandidatosAPPDB.sqlite");
                 SQLiteConnection dbConnection = new SQLiteConnection("Data Source=CandidatosAPPDB.sqlite;Version=3;");
                 dbConnection.Open();
-
+                //Creación de tabla Candidatos
                 string sqlCrearTabla = "CREATE TABLE Candidatos (candidatoID INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     "cedula TEXT NOT NULL UNIQUE, nombre TEXT NOT NULL, apellido TEXT NOT NULL, " +
                     "fechaNacimiento TEXT NOT NULL, trabajoActual TEXT, expectativaSalarial INT, observaciones TEXT)";
@@ -40,12 +36,11 @@ namespace CandidatosAPP
                 SQLiteCommand queryCrearTabla = new SQLiteCommand(sqlCrearTabla, dbConnection);
                 queryCrearTabla.ExecuteNonQuery();
             }
-
-
+            
             Recargar();
         }
 
-
+        //Método para alimentar DataGridView con los datos de la tabla Candidatos
         private void Recargar()
         {
             SQLiteConnection con = new SQLiteConnection("Data Source=CandidatosAPPDB.sqlite;Version=3;");
@@ -72,7 +67,7 @@ namespace CandidatosAPP
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;            
         }
         
-                
+        //Mostrar formulario para Agregar Candidato    
         private void button2_Click(object sender, EventArgs e)
         {
             Formularios.AgregarFrm oAgregarFrm = new Formularios.AgregarFrm();
@@ -82,18 +77,19 @@ namespace CandidatosAPP
         }
 
             
-        
+        //Formulario para Editar Candidato
         private void button3_Click(object sender, EventArgs e)
         {
 
             try
             {
+                //Identificar linea de fila seleccionada
                 int indexLineaSeleccionada = dataGridView1.SelectedCells[0].RowIndex;
                 string candidatoIDValue = dataGridView1.Rows[indexLineaSeleccionada].Cells[0].Value.ToString();
 
+                //Seleccionar datos de Candidato Seleccionado y asignar datos a variables
                 SQLiteConnection con = new SQLiteConnection("Data Source=CandidatosAPPDB.sqlite;Version=3;");
                 con.Open();
-
                 SQLiteCommand queryDelete = new SQLiteCommand(con);
                 queryDelete.CommandText = string.Format("SELECT * from Candidatos WHERE candidatoID = {0}", candidatoIDValue);
                 DataTable dt = new DataTable();
@@ -108,8 +104,7 @@ namespace CandidatosAPP
                 int expectativaSalarial = dt.Rows[0].Field<int>("expectativaSalarial");
                 string observaciones = dt.Rows[0].Field<string>("observaciones");
 
-
-
+                //Mostrar Formulario Editar Candidato y asignarle datos de variables
                 Formularios.EditarFrm oEditarFrm = new Formularios.EditarFrm();
                 oEditarFrm.cedula = cedula;
                 oEditarFrm.nombre = nombre;
@@ -129,10 +124,9 @@ namespace CandidatosAPP
                        
         }
 
+        //Eliminar Candidato Seleccionado
         private void button4_Click(object sender, EventArgs e)
-        {
-            
-            
+        {                       
             try
             {
                 int indexLineaSeleccionada = dataGridView1.SelectedCells[0].RowIndex;
@@ -150,12 +144,7 @@ namespace CandidatosAPP
                 if (confirmarDelete == DialogResult.Yes)
                 {
                     queryDelete.ExecuteNonQuery();
-                }
-                else
-                {
-
-                }                
-
+                }                          
                 Recargar();
             }
             catch
