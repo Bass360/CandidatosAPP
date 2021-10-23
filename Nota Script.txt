@@ -1,0 +1,3 @@
+La base de datos utilizada para este programa es SQLite. Para crear bases de datos en SQLite se puede ejecutar un comando directamente a través de SQLite, también es posible a través de un método dentro del programa en C# (como es creado en este caso), y también es posible al crear un archivo de texto simple y asignándole la extensión .sqlite al final.
+
+Por esta razón dentro del script solo se encuentra el query para la creación de la tabla que es utilizada por el programa junto con sus constraints.
